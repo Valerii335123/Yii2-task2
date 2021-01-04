@@ -14,8 +14,8 @@ class LoginForm extends Model
         return [
             [['login','pass'],'required'],
             [['login'], 'string', 'min'=>3,'max' => 255],
-            [['pass'], 'match', 'pattern' => '/(?=.*[0-9])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{6,}/', 'skipOnError' => true],
-            ['confirm_pass', 'compare', 'compareAttribute' => 'pass'],
+
+
         ];
     }
 }

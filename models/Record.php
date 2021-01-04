@@ -26,20 +26,10 @@ class Record extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function rules()
-    {
-        return [
-            [['active', 'user_id'], 'integer'],
-            [['user_id'], 'required'],
-            [['title', 'share'], 'string', 'max' => 255],
-            [['text'], 'string', 'max' => 1024],
-            [['share'], 'unique'],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
-        ];
-    }
+
 
     public function attributeLabels()
-    {
+        {
         return [
             'id' => 'ID',
             'title' => 'Title',
@@ -49,6 +39,19 @@ class Record extends \yii\db\ActiveRecord
             'user_id' => 'User ID',
         ];
     }
+
+    public function fields()
+    {
+        return [
+            'id',
+            'title',
+            'text',
+            'share',
+            'active'
+
+        ];
+    }
+
 
     public function getComments()
     {

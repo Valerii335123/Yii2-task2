@@ -2,6 +2,8 @@
 
 namespace app\models;
 
+use app\models\forms\LoginForm;
+use app\models\forms\Registration;
 use phpDocumentor\Reflection\Types\This;
 use Yii;
 use yii\db\ActiveRecord as ActiveRecordAlias;
@@ -29,7 +31,7 @@ class User extends ActiveRecordAlias implements IdentityInterface
     {
         return [
             [['login', 'pass'], 'required'],
-            [['role', 'active'], 'integer'],
+//            [['role', 'active'], 'integer'],
             [['login', 'pass'], 'string', 'max' => 255],
             [['login'], 'unique'],
         ];
@@ -55,6 +57,26 @@ class User extends ActiveRecordAlias implements IdentityInterface
     {
         return $this->hasMany(Record::class, ['user_id' => 'id']);
     }
+
+    public function registration(Registration $registration)
+    {
+
+        $this->login = $registration->login;
+        $this->pass = Yii::$app->security->generatePasswordHash($registration->pass);
+
+    }
+    public static function findByLogin($login)
+    {
+        return static::findOne(['login'=>$login]);
+    }
+
+
+    public function validatePassword($password)
+    {
+        //      print_r($password);
+        return Yii::$app->security->validatePassword($password, $this->pass);
+    }
+
 
 
     //method from identityInterface
