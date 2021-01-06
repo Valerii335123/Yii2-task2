@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\models\forms\CommentForm;
 use Yii;
 
 /**
@@ -32,13 +33,18 @@ class Comment extends \yii\db\ActiveRecord
         ];
     }
 
-    public function attributeLabels()
+    public function fields()
     {
         return [
-            'id' => 'ID',
-            'user_id' => 'User ID',
-            'record_id' => 'Record ID',
-            'comment' => 'Comment',
+            'id',
+            'user' => function () {
+                return [
+                    'login' => $this->user->login,
+                ];
+            },
+            'record_id',
+            'comment',
+            'created'
         ];
     }
 
@@ -50,5 +56,12 @@ class Comment extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::class, ['id' => 'user_id']);
+    }
+
+    public function create(CommentForm $form, $id)
+    {
+        $this->comment = $form->comment;
+        $this->user_id = Yii::$app->user->id;
+        $this->record_id = $id;
     }
 }
