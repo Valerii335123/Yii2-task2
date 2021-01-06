@@ -2,13 +2,17 @@
 
 namespace app\controllers;
 
+use app\models\Comment;
+use app\models\forms\CommentForm;
+use app\models\Record;
+use app\models\searchModel\CommentSearch;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
-use app\models\LoginForm;
-use app\models\ContactForm;
+
+
 
 class SiteController extends Controller
 {
@@ -24,6 +28,7 @@ class SiteController extends Controller
                         'allow' => true,
                         'roles' => ['@'],
                     ],
+
                 ],
             ],
             'verbs' => [
@@ -37,6 +42,10 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
+        if(!Yii::$app->user->isGuest)
+        {
+            return $this->redirect('record/index');
+        }
         return $this->render('index');
     }
 
@@ -45,6 +54,25 @@ class SiteController extends Controller
         return $this->render('error');
     }
 
+    public function actionShared($share)
+    {
+
+        $searchModel = new CommentSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams,$share);
+
+        $commentForm=new CommentForm();
+            if($commentForm->load(Yii::$app->request->post()))
+            {
+                $comment=new Comment();
+                $comment->create($commentForm,(Record::findOne(['share'=>$share]))->id);
+                $comment->save();
+            }
+        return $this->render('view_record',[
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+            'commentForm'=>$commentForm
+        ]);
+    }
 
 
 
