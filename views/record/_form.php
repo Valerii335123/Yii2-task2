@@ -12,15 +12,16 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'title')->textInput(['maxlength' => 255]) ?>
 
-    <?= $form->field($model, 'text')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'text')->textInput(['maxlength' => 1024]) ?>
 
-    <?= $form->field($model, 'share')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'active')->radioList([
+        1=>'active',
+        0=>'deactive'
+            ]
+    ) ?>
 
-    <?= $form->field($model, 'active')->textInput() ?>
-
-    <?= $form->field($model, 'user_id')->textInput() ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

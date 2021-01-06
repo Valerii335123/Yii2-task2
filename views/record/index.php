@@ -18,7 +18,6 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Create Record', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -28,17 +27,15 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'title',
             'text',
-            'share',
             'active',
 
-
             ['class' => 'yii\grid\ActionColumn',
-                'header'=>'Действия',
+                'header' => '',
                 'template' => '{view} {update} {delete} {share}',
                 'buttons' => [
-                'share'=>function($url){
-        return Html::a('share',$url);
-                },
+                    'share' => function ($url) {
+                        return Html::a('share', $url);
+                    },
 
                 ],
             ],

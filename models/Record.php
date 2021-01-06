@@ -23,13 +23,22 @@ class Record extends \yii\db\ActiveRecord
         return '{{%record}}';
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    public function rules()
+    {
+        return [
+            [['id', 'user_id', 'active'], 'integer'],
+            [['user_id'], 'default', 'value' => function () {
+                return Yii::$app->user->id;
+            }],
+            [['share'], 'unique'],
+            [['title'], 'string', 'length' => [3, 255]],
+            [['text'], 'string', 'length' => [3, 1024]],
 
+        ];
+    }
 
     public function attributeLabels()
-        {
+    {
         return [
             'id' => 'ID',
             'title' => 'Title',

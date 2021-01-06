@@ -46,7 +46,7 @@ class UserController extends Controller
         }
 
         $login = new LoginForm();
-        $message;
+        $message='';
         if ($login->load(Yii::$app->request->post()) && $login->validate()) {
             $user = User::findByLogin($login->login);
             if (!$user || !$user->validatePassword($login->pass)) {

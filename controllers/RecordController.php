@@ -12,20 +12,24 @@ use yii\filters\VerbFilter;
 
 class RecordController extends Controller
 {
-
     public function behaviors()
     {
         return [
             'access' => [
                 'class' => AccessControl::class,
-                'only' => ['index'],
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index'],
                         'roles' => ['@'],
                     ],
+                    [
+                        'allow' => false,
+                        'roles' => ['?'],
+                        'denyCallback' => function () {
 
+                            return $this->redirect('user/login');
+                        },
+                    ]
                 ],
             ],
         ];
@@ -53,8 +57,12 @@ class RecordController extends Controller
     public function actionCreate()
     {
         $model = new Record();
+        $model->active = 1;
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+            $model->share = md5(date('Ymdi'));
+
+            $model->save();
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -83,6 +91,18 @@ class RecordController extends Controller
         return $this->redirect(['index']);
     }
 
+    public function actionShare($id)
+    {
+        $model = $this->findModel($id);
+
+        if ($model->active == 0)
+            return $this->redirect(['index']);
+
+        return $this->render('share', [
+            'share' => $model->share
+        ]);
+    }
+
     protected function findModel($id)
     {
         if (($model = Record::findOne($id)) !== null) {
@@ -91,4 +111,5 @@ class RecordController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
 }

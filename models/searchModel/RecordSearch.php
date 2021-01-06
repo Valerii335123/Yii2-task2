@@ -13,24 +13,22 @@ class RecordSearch extends Record
     {
         return [
             [['id', 'active', 'user_id'], 'integer'],
-            [['title', 'text', 'share'], 'safe'],
+            [['title', 'text'], 'string'],
+
         ];
     }
 
-    public function scenarios()
-    {
-        // bypass scenarios() implementation in the parent class
-        return Model::scenarios();
-    }
 
     public function search($params)
     {
         $query = Record::find();
 
-
-
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' => 3,
+            ],
+
         ]);
 
         $this->load($params);
@@ -44,7 +42,7 @@ class RecordSearch extends Record
         $query->andFilterWhere([
             'id' => $this->id,
             'active' => $this->active,
-            'user_id' => $this->user_id,
+            'user_id' => \Yii::$app->user->id,
         ]);
 
         $query->andFilterWhere(['like', 'title', $this->title])
