@@ -37,18 +37,6 @@ class Record extends \yii\db\ActiveRecord
         ];
     }
 
-    public function attributeLabels()
-    {
-        return [
-            'id' => 'ID',
-            'title' => 'Title',
-            'text' => 'Text',
-            'share' => 'Share',
-            'active' => 'Active',
-            'user_id' => 'User ID',
-        ];
-    }
-
     public function fields()
     {
         return [
@@ -56,7 +44,7 @@ class Record extends \yii\db\ActiveRecord
             'title',
             'text',
             'share',
-            'active'
+            'active',
 
         ];
     }
