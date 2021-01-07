@@ -18,9 +18,9 @@ class CommentSearch extends Comment
         ];
     }
 
-    public function search($params, $share)
+    public function search($params, $record)
     {
-        $record = Record::findOne(['share' => $share]);
+        
         $comments = Comment::find();
         $comments->where(['record_id' => $record->id]);
 

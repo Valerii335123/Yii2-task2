@@ -1,8 +1,24 @@
 <?php
 
 
-use yii\grid\GridView;
+use yii\widgets\ListView;
+use yii\widgets\DetailView;
 
+echo DetailView::widget([
+    'model' => $record,
+    'attributes' => [
+        'title',
+        'text',
+        [
+            'attributy' => 'record',
+            'value' => function ($record) {
+                return $record->user->login;
+            },
+            'label' => 'Avtor'
+        ],
+
+    ],
+]);
 
 if (!Yii::$app->user->isGuest) {
     echo $this->render('_commentForm', [
@@ -10,21 +26,8 @@ if (!Yii::$app->user->isGuest) {
     ]);
 }
 
-
-echo GridView::widget([
+echo ListView::widget([
     'dataProvider' => $dataProvider,
-    'columns' => [
-        'id',
-        'comment',
-        [
-            'attribute' => 'user_id',
-            'value' => 'user.login',
-            'label' => 'User Login',
-        ],
-        'created',
-    ],
-
-
+    'itemView' => '_comment',
 ]);
-
 ?>

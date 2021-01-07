@@ -13,7 +13,6 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 
 
-
 class SiteController extends Controller
 {
     public function behaviors()
@@ -42,8 +41,7 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        if(!Yii::$app->user->isGuest)
-        {
+        if (!Yii::$app->user->isGuest) {
             return $this->redirect('record/index');
         }
         return $this->render('index');
@@ -56,25 +54,28 @@ class SiteController extends Controller
 
     public function actionShared($share)
     {
+        $record = Record::findOne(['share' => $share]);
 
         $searchModel = new CommentSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams,$share);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, $record);
 
-        $commentForm=new CommentForm();
-            if($commentForm->load(Yii::$app->request->post()))
-            {
-                $comment=new Comment();
-                $comment->create($commentForm,(Record::findOne(['share'=>$share]))->id);
-                $comment->save();
-            }
-        return $this->render('view_record',[
+        $commentForm = new CommentForm();
+        if ($commentForm->load(Yii::$app->request->post())) {
+            $comment = new Comment();
+            $comment->create($commentForm, $record->id);
+            $comment->save();
+        }
+
+        $commentForm->comment='';
+
+        return $this->render('view_record', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'commentForm'=>$commentForm
+            'commentForm' => $commentForm,
+            'record' => $record
+
         ]);
     }
-
-
 
 
 }

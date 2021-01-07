@@ -37,11 +37,6 @@ class Comment extends \yii\db\ActiveRecord
     {
         return [
             'id',
-            'user' => function () {
-                return [
-                    'login' => $this->user->login,
-                ];
-            },
             'record_id',
             'comment',
             'created'
