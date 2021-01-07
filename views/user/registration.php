@@ -5,7 +5,6 @@ use yii\widgets\ActiveForm;
 
 ?>
 
-
 <div class="user-login">
 
     <?php $form = ActiveForm::begin(); ?>
@@ -16,7 +15,6 @@ use yii\widgets\ActiveForm;
 
     <div class="form-group">
         <div class="row">
-
             <div class="col col-lg-1">
                 <?= Html::submitButton('Submit', ['class' => 'btn btn-primary']) ?>
             </div>
@@ -24,7 +22,6 @@ use yii\widgets\ActiveForm;
             <div class="col col-lg-2">
                 <?= html::a('Login', ['user/login'], ['class' => 'btn btn-link']); ?>
             </div>
-
         </div>
     </div>
     <?php ActiveForm::end(); ?>

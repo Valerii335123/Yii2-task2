@@ -3,7 +3,6 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
-
 ?>
 
 <div class="row">
@@ -17,10 +16,8 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'login') ?>
     <?= $form->field($model, 'pass') ?>
 
-
     <div class="form-group">
         <div class="row">
-
             <div class="col col-lg-1">
                 <?= Html::submitButton('Login', ['class' => 'btn btn-primary']) ?>
             </div>
@@ -31,9 +28,6 @@ use yii\widgets\ActiveForm;
         </div>
     </div>
 
-    <div class=" ">
-
-    </div>
     <?php ActiveForm::end(); ?>
 
 </div>

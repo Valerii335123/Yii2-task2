@@ -10,7 +10,6 @@ use yii\helpers\HtmlPurifier;
             <th>
                 <?= $model->user->login ?>
                 <?= $model->created ?>
-
             </th>
         </tr>
         <tr class="comment-body">

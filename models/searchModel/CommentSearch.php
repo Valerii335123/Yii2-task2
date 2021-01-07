@@ -20,7 +20,7 @@ class CommentSearch extends Comment
 
     public function search($params, $record)
     {
-        
+
         $comments = Comment::find();
         $comments->where(['record_id' => $record->id]);
 

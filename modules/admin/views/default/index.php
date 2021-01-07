@@ -1,12 +1,34 @@
-<div class="admin-default-index">
-    <h1><?= $this->context->action->uniqueId ?></h1>
-    <p>
-        This is the view content for action "<?= $this->context->action->id ?>".
-        The action belongs to the controller "<?= get_class($this->context) ?>"
-        in the "<?= $this->context->module->id ?>" module.
-    </p>
-    <p>
-        You may customize this page by editing the following file:<br>
-        <code><?= __FILE__ ?></code>
-    </p>
-</div>
+<?php
+
+use yii\helpers\Html;
+use yii\grid\GridView;
+
+?>
+
+<?= GridView::widget([
+    'dataProvider' => $dataProvider,
+    'filterModel' => $searchModel,
+    'columns' => [
+        ['class' => 'yii\grid\SerialColumn'],
+
+        'id',
+        'login',
+        'role',
+        'active',
+
+        ['class' => 'yii\grid\ActionColumn',
+            'header' => '',
+            'template' => '{change_active} {change_role}',
+            'buttons' => [
+                'change_active' => function ($url) {
+                    return Html::a('Change Active', $url, ['class' => 'btn btn-success']);
+                },
+                'change_role' => function ($url) {
+                    return Html::a('Change role', $url, ['class' => 'btn btn-success']);
+                },
+
+            ],
+        ],
+    ],
+
+]); ?>

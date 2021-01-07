@@ -45,7 +45,6 @@ class Record extends \yii\db\ActiveRecord
             'text',
             'share',
             'active',
-
         ];
     }
 
@@ -54,7 +53,6 @@ class Record extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Comment::class, ['record_id' => 'id']);
     }
-
 
     public function getUser()
     {

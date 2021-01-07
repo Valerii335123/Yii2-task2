@@ -3,20 +3,13 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\Record */
-
-$this->title = $model->title;
-$this->params['breadcrumbs'][] = ['label' => 'Records', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
-\yii\web\YiiAsset::register($this);
 ?>
+
 <div class="record-view">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Update', ['update', 'id' => $model->id],
+            ['class' => 'btn btn-primary']) ?>
+
         <?= Html::a('Delete', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
@@ -25,10 +18,25 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]) ?>
 
-        <?= html::a($model->active ? 'Desactive' : 'Active', [
-            'changeActive', 'id' => $model->id
+        <?= html::a($model->active ?
+            'Desactive' : 'Active', [
+            'change_active', 'id' => $model->id,
+
         ],
-            ['class' => $model->active ? 'btn btn-danger' : 'btn btn-primary']) ?>
+            ['class' => $model->active ?
+                'btn btn-danger' :
+                'btn btn-primary',
+                'data' => [
+                    'confirm' => 'Are you sure you want to change active this item?',
+                    'method' => 'post',
+                ],
+            ],
+        ) ?>
+
+        <?= $model->active ? html::a('share',
+            ['share', 'id' => $model->id],
+            ['class' => 'btn btn-primary']) : null;
+        ?>
     </p>
 
     <?= DetailView::widget([
@@ -38,8 +46,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'title',
             'text',
             'active',
-
-
         ],
     ]) ?>
 

@@ -36,7 +36,6 @@ class User extends ActiveRecordAlias implements IdentityInterface
         ];
     }
 
-
     public function attributeLabels()
     {
         return [
@@ -60,7 +59,6 @@ class User extends ActiveRecordAlias implements IdentityInterface
 
     public function registration(Registration $registration)
     {
-
         $this->login = $registration->login;
         $this->pass = Yii::$app->security->generatePasswordHash($registration->pass);
 
@@ -71,13 +69,10 @@ class User extends ActiveRecordAlias implements IdentityInterface
         return static::findOne(['login' => $login]);
     }
 
-
     public function validatePassword($password)
     {
-        //      print_r($password);
         return Yii::$app->security->validatePassword($password, $this->pass);
     }
-
 
     //method from identityInterface
     public static function findIdentity($id)

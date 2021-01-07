@@ -1,8 +1,5 @@
 <?php
 
-/* @var $this \yii\web\View */
-/* @var $content string */
-
 use app\widgets\Alert;
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
@@ -40,7 +37,7 @@ AppAsset::register($this);
         'items' => [
 
             Yii::$app->user->isGuest ? (
-                ['label' => 'Login', 'url' => ['/user/login']]
+            ['label' => 'Login', 'url' => ['/user/login']]
             ) : (
                 '<li>'
                 . Html::beginForm(['/user/logout'], 'post')

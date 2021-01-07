@@ -9,7 +9,6 @@ use app\models\searchModel\CommentSearch;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
-use yii\web\Response;
 use yii\filters\VerbFilter;
 
 
@@ -44,6 +43,7 @@ class SiteController extends Controller
         if (!Yii::$app->user->isGuest) {
             return $this->redirect('record/index');
         }
+
         return $this->render('index');
     }
 
@@ -60,13 +60,14 @@ class SiteController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams, $record);
 
         $commentForm = new CommentForm();
+
         if ($commentForm->load(Yii::$app->request->post())) {
             $comment = new Comment();
             $comment->create($commentForm, $record->id);
             $comment->save();
         }
 
-        $commentForm->comment='';
+        $commentForm->comment = '';
 
         return $this->render('view_record', [
             'searchModel' => $searchModel,

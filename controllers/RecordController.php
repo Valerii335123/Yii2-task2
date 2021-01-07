@@ -8,7 +8,7 @@ use app\models\searchModel\RecordSearch;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
+
 
 class RecordController extends Controller
 {
@@ -101,6 +101,18 @@ class RecordController extends Controller
         return $this->render('share', [
             'share' => $model->share
         ]);
+    }
+
+    public function actionChange_active($id)
+    {
+        $model = $this->findModel($id);
+
+        $model->active = $model->active ? 0 : 1;
+        $model->save();
+
+        return $this->redirect(['view', 'id' => $model->id]);
+
+
     }
 
     protected function findModel($id)

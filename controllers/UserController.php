@@ -46,23 +46,26 @@ class UserController extends Controller
         }
 
         $login = new LoginForm();
-        $message='';
+        $message = '';
+
         if ($login->load(Yii::$app->request->post()) && $login->validate()) {
             $user = User::findByLogin($login->login);
+
             if (!$user || !$user->validatePassword($login->pass)) {
                 $message = 'Undefined user or pass';
 
-            }
-            elseif (!$user->active) {
+            } elseif (!$user->active) {
                 $message = 'User is banned';
-            }else {
-                Yii::$app->user->login($user,3600*24);
+            } else {
+                Yii::$app->user->login($user, 3600 * 24);
                 return $this->goHome();
             }
 
         }
-        $login->login='';
-        $login->pass='';
+
+        $login->login = '';
+        $login->pass = '';
+
         return $this->render('login', [
             'model' => $login,
             'message' => $message

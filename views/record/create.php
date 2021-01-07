@@ -2,12 +2,8 @@
 
 use yii\helpers\Html;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\Record */
-
 $this->title = 'Create Record';
-$this->params['breadcrumbs'][] = ['label' => 'Records', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="record-create">
 
