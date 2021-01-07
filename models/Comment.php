@@ -33,16 +33,6 @@ class Comment extends \yii\db\ActiveRecord
         ];
     }
 
-    public function fields()
-    {
-        return [
-            'id',
-            'record_id',
-            'comment',
-            'created'
-        ];
-    }
-
     public function getRecord()
     {
         return $this->hasOne(Record::class, ['id' => 'record_id']);

@@ -11,7 +11,6 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 
-
 class SiteController extends Controller
 {
     public function behaviors()
@@ -77,6 +76,5 @@ class SiteController extends Controller
 
         ]);
     }
-
 
 }

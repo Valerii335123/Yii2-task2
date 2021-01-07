@@ -19,7 +19,6 @@ class UserSearch extends User
 
     public function search($params)
     {
-
         $query = User::find();
         $query->where(['<>', 'id', Yii::$app->user->id]);
 

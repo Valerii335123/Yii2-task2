@@ -37,18 +37,6 @@ class Record extends \yii\db\ActiveRecord
         ];
     }
 
-    public function fields()
-    {
-        return [
-            'id',
-            'title',
-            'text',
-            'share',
-            'active',
-        ];
-    }
-
-
     public function getComments()
     {
         return $this->hasMany(Comment::class, ['record_id' => 'id']);

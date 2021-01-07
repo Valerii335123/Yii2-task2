@@ -9,7 +9,6 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
-
 class RecordController extends Controller
 {
     public function behaviors()
@@ -34,7 +33,6 @@ class RecordController extends Controller
             ],
         ];
     }
-
 
     public function actionIndex()
     {
@@ -111,8 +109,6 @@ class RecordController extends Controller
         $model->save();
 
         return $this->redirect(['view', 'id' => $model->id]);
-
-
     }
 
     protected function findModel($id)
