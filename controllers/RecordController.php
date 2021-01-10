@@ -93,7 +93,7 @@ class RecordController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->active == 0)
+        if ($model->isAcive())
             return $this->redirect(['index']);
 
         return $this->render('share', [
@@ -105,7 +105,7 @@ class RecordController extends Controller
     {
         $model = $this->findModel($id);
 
-        $model->active = $model->active ? 0 : 1;
+        $model->active = $model->isAcive() ? 0 : 1;
         $model->save();
 
         return $this->redirect(['view', 'id' => $model->id]);

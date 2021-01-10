@@ -5,9 +5,6 @@ use yii\widgets\ActiveForm;
 
 ?>
 
-<div class="row">
-    <?= html::label($message, ['class' => 'h2']) ?>
-</div>
 
 <div class="user-login">
 

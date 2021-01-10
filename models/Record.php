@@ -42,8 +42,15 @@ class Record extends \yii\db\ActiveRecord
         return $this->hasMany(Comment::class, ['record_id' => 'id']);
     }
 
+
     public function getUser()
     {
         return $this->hasOne(User::class, ['id' => 'user_id']);
+    }
+
+
+    public function isAcive()
+    {
+        return $this->active ? 1 : 0;
     }
 }

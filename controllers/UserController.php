@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\service\UserService;
 use app\models\User;
 use Yii;
 use app\models\forms\LoginForm;
@@ -11,6 +12,14 @@ use yii\web\Controller;
 
 class UserController extends Controller
 {
+    private $userService;
+
+    public function __construct($id, $module, UserService $service, $config = [])
+    {
+        parent::__construct($id, $module, $config);
+        $this->userService = $service;
+    }
+
     public function behaviors()
     {
         return [
@@ -22,11 +31,16 @@ class UserController extends Controller
                         'allow' => true,
                         'actions' => ['logout'],
                         'roles' => ['@'],
+                        'denyCallback' => function () {
+
+                            return $this->redirect('site/index');
+                        },
                     ],
                     [
                         'allow' => true,
                         'actions' => ['login', 'index', 'registration'],
                         'roles' => ['?'],
+
                     ],
                 ],
             ],
@@ -49,17 +63,24 @@ class UserController extends Controller
         $message = '';
 
         if ($login->load(Yii::$app->request->post()) && $login->validate()) {
-            $user = User::findByLogin($login->login);
 
-            if (!$user || !$user->validatePassword($login->pass)) {
-                $message = 'Undefined user or pass';
+            //service login
+            if ($this->userService->login($login)) {
 
-            } elseif (!$user->active) {
-                $message = 'User is banned';
-            } else {
-                Yii::$app->user->login($user, 3600 * 24);
                 return $this->goHome();
             }
+//            $user = User::findByLogin($login->login);
+//
+//            if (!$user || !$user->validatePassword($login->pass)) {
+//                $message = 'Undefined user or pass';
+//
+//            } elseif (!$user->active) {
+//                $message = 'User is banned';
+//            } else {
+//                Yii::$app->user->login($user, 3600 * 24);
+//                return $this->goHome();
+//            }
+
 
         }
 
@@ -68,7 +89,7 @@ class UserController extends Controller
 
         return $this->render('login', [
             'model' => $login,
-            'message' => $message
+
         ]);
     }
 
@@ -77,9 +98,9 @@ class UserController extends Controller
         $registration = new Registration();
 
         if ($registration->load(Yii::$app->request->post()) && $registration->validate()) {
-            $user = new User();
-            $user->registration($registration);
-            $user->save();
+
+            $this->userService->registration($registration);
+
             return $this->goHome();
         }
 

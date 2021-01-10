@@ -3,12 +3,19 @@
 namespace app\modules\admin\controllers;
 
 use app\models\searchModel\UserSearch;
-use app\models\User;
+use app\models\service\UserService;
 use yii\web\Controller;
 use Yii;
 
 class DefaultController extends Controller
 {
+    private $userService;
+
+    public function __construct($id, $module, UserService $service, $config = [])
+    {
+        parent::__construct($id, $module, $config);
+        $this->userService = $service;
+    }
 
     public function actionIndex()
     {
@@ -23,17 +30,15 @@ class DefaultController extends Controller
 
     public function actionChange_role($id)
     {
-        $user = User::findOne(['id' => $id]);
-        $user->role = $user->role ? 0 : 1;
-        $user->save();
+        $this->userService->changeRole($id);
+
         return $this->redirect('index');
     }
 
     public function actionChange_active($id)
     {
-        $user = User::findOne(['id' => $id]);
-        $user->active = $user->active ? 0 : 1;
-        $user->save();
+        $this->userService->changeActive($id);
+
         return $this->redirect('index');
     }
 }

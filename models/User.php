@@ -64,10 +64,6 @@ class User extends ActiveRecordAlias implements IdentityInterface
 
     }
 
-    public static function findByLogin($login)
-    {
-        return static::findOne(['login' => $login]);
-    }
 
     public function validatePassword($password)
     {
