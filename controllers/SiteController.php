@@ -2,10 +2,10 @@
 
 namespace app\controllers;
 
-use app\models\Comment;
 use app\models\forms\CommentForm;
 use app\models\Record;
 use app\models\searchModel\CommentSearch;
+use app\models\service\CommentService;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -13,6 +13,15 @@ use yii\filters\VerbFilter;
 
 class SiteController extends Controller
 {
+
+    private $commentService;
+
+    public function __construct($id, $module, CommentService $commentService, $config = [])
+    {
+        parent::__construct($id, $module, $config);
+        $this->commentService = $commentService;
+    }
+
     public function behaviors()
     {
         return [
@@ -54,22 +63,18 @@ class SiteController extends Controller
     public function actionShared($share)
     {
         $record = Record::findOne(['share' => $share]);
+        $commentForm = new CommentForm();
 
         $searchModel = new CommentSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams, $record);
 
-        $commentForm = new CommentForm();
-
         if ($commentForm->load(Yii::$app->request->post())) {
-            $comment = new Comment();
-            $comment->create($commentForm, $record->id);
-            $comment->save();
+            $this->commentService->create($commentForm, $record->id);
         }
 
         $commentForm->comment = '';
 
         return $this->render('view_record', [
-            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'commentForm' => $commentForm,
             'record' => $record
