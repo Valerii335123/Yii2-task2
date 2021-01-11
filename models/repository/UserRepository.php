@@ -2,7 +2,6 @@
 
 namespace app\models\repository;
 
-
 use app\models\User;
 
 class UserRepository
@@ -26,8 +25,6 @@ class UserRepository
             return $user;
         }
     }
-
-
 }
 
 ?>

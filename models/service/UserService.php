@@ -10,7 +10,6 @@ use app\models\User;
 
 class UserService
 {
-
     private $userRepository;
 
     public function __construct(UserRepository $userRepository)
@@ -24,7 +23,6 @@ class UserService
         $user->registration($registration);
 
         $this->userRepository->save($user);
-
     }
 
     public function login(LoginForm $loginForm)
@@ -34,15 +32,12 @@ class UserService
         if (!$user || !$user->validatePassword($loginForm->pass)) {
             throw new \Exception('Undefined login or pass');
 
-
         } elseif (!$user->active) {
             throw new \Exception('User is banned');
 
         } else {
             return Yii::$app->user->login($user, 3600 * 24);
-
         }
-
     }
 
     public function changeRole($id)
@@ -50,7 +45,6 @@ class UserService
         $user = $this->userRepository->get($id);
         $user->role = $user->role ? 0 : 1;
         $this->userRepository->save($user);
-
     }
 
     public function changeActive($id)

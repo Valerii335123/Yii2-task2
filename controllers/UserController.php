@@ -60,28 +60,12 @@ class UserController extends Controller
         }
 
         $login = new LoginForm();
-        $message = '';
 
         if ($login->load(Yii::$app->request->post()) && $login->validate()) {
-
-            //service login
             if ($this->userService->login($login)) {
 
                 return $this->goHome();
             }
-//            $user = User::findByLogin($login->login);
-//
-//            if (!$user || !$user->validatePassword($login->pass)) {
-//                $message = 'Undefined user or pass';
-//
-//            } elseif (!$user->active) {
-//                $message = 'User is banned';
-//            } else {
-//                Yii::$app->user->login($user, 3600 * 24);
-//                return $this->goHome();
-//            }
-
-
         }
 
         $login->login = '';
@@ -89,7 +73,6 @@ class UserController extends Controller
 
         return $this->render('login', [
             'model' => $login,
-
         ]);
     }
 
@@ -98,7 +81,6 @@ class UserController extends Controller
         $registration = new Registration();
 
         if ($registration->load(Yii::$app->request->post()) && $registration->validate()) {
-
             $this->userService->registration($registration);
 
             return $this->goHome();
