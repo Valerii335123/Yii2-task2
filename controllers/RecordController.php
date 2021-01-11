@@ -2,6 +2,9 @@
 
 namespace app\controllers;
 
+use app\models\repository\RecordRepository;
+use app\models\service\RecordService;
+
 use Yii;
 use app\models\Record;
 use app\models\searchModel\RecordSearch;
@@ -11,6 +14,17 @@ use yii\web\NotFoundHttpException;
 
 class RecordController extends Controller
 {
+    private $recordService;
+    private $recordRepository;
+
+    public function __construct($id, $module, RecordService $service, RecordRepository $recordRepository, $config = [])
+    {
+        parent::__construct($id, $module, $config);
+
+        $this->recordService = $service;
+        $this->recordRepository = $recordRepository;
+    }
+
     public function behaviors()
     {
         return [
@@ -47,8 +61,10 @@ class RecordController extends Controller
 
     public function actionView($id)
     {
+        $model = $this->recordRepository->get($id);
+
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
         ]);
     }
 
@@ -58,9 +74,8 @@ class RecordController extends Controller
         $model->active = 1;
 
         if ($model->load(Yii::$app->request->post())) {
-            $model->share = md5(date('Ymdi'));
+            $this->recordService->create($model);
 
-            $model->save();
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -73,7 +88,8 @@ class RecordController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) && $this->recordRepository->save($model)) {
+
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -84,17 +100,14 @@ class RecordController extends Controller
 
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $this->recordService->delete($id);
 
         return $this->redirect(['index']);
     }
 
     public function actionShare($id)
     {
-        $model = $this->findModel($id);
-
-        if ($model->isAcive())
-            return $this->redirect(['index']);
+        $model = $this->recordService->getShared($id);
 
         return $this->render('share', [
             'share' => $model->share
@@ -103,17 +116,14 @@ class RecordController extends Controller
 
     public function actionChange_active($id)
     {
-        $model = $this->findModel($id);
+       $this->recordService->changeActive($id);
 
-        $model->active = $model->isAcive() ? 0 : 1;
-        $model->save();
-
-        return $this->redirect(['view', 'id' => $model->id]);
+        return $this->redirect(['view', 'id' => $id]);
     }
 
     protected function findModel($id)
     {
-        if (($model = Record::findOne($id)) !== null) {
+        if ($model = $this->recordRepository->get($id) !== null) {
             return $model;
         }
 
