@@ -18,13 +18,15 @@ class RecordRepository
         return Record::findOne(['share' => $share]);
     }
 
-    public function get($id)
+    public function getById($id)
     {
         $record = Record::findOne($id);
-        if ($record != null) {
-            return $record;
+        if ($record == null) {
+            throw new \DomainException("Record is not found");
         }
+        return $record;
     }
+
     public function remove($model)
     {
         if (!$model->delete()) {

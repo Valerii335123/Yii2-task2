@@ -42,15 +42,15 @@ class UserService
 
     public function changeRole($id)
     {
-        $user = $this->userRepository->get($id);
-        $user->role = $user->role ? 0 : 1;
+        $user = $this->userRepository->getById($id);
+        $user->role = $user->role ? User::ROLE_USER : User::ROLE_ADMIN;
         $this->userRepository->save($user);
     }
 
     public function changeActive($id)
     {
-        $user = $this->userRepository->get($id);
-        $user->active = $user->active ? 0 : 1;
+        $user = $this->userRepository->getById($id);
+        $user->active = $user->active ? User::USER_INACTIVE : User::USER_ACTIVE;
         $this->userRepository->save($user);
     }
 }

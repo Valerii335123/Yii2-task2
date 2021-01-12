@@ -4,12 +4,14 @@ namespace app\models\repository;
 
 use app\models\Comment;
 
+use yii\web\NotFoundHttpException;
+
 class CommentRepository
 {
     public function save(Comment $comment)
     {
         if (!$comment->save()) {
-            throw new \RuntimeException('Saving error.');
+            throw new NotFoundHttpException("");
         }
     }
 

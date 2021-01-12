@@ -69,7 +69,7 @@ class SiteController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams, $record);
 
         if ($commentForm->load(Yii::$app->request->post())) {
-            $this->commentService->create($commentForm, $record->id);
+            $this->commentService->create($commentForm->comment, $record->id);
         }
 
         $commentForm->comment = '';

@@ -18,12 +18,13 @@ class UserRepository
         return User::findOne(['login' => $login]);
     }
 
-    public function get($id)
+    public function getById($id)
     {
         $user = User::findOne($id);
-        if ($user != null) {
-            return $user;
+        if ($user == null) {
+            throw new \DomainException('User is not found');
         }
+        return $user;
     }
 }
 

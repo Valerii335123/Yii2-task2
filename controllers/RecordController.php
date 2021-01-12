@@ -4,13 +4,12 @@ namespace app\controllers;
 
 use app\models\repository\RecordRepository;
 use app\models\service\RecordService;
-
 use Yii;
 use app\models\Record;
 use app\models\searchModel\RecordSearch;
 use yii\filters\AccessControl;
 use yii\web\Controller;
-use yii\web\NotFoundHttpException;
+
 
 class RecordController extends Controller
 {
@@ -61,7 +60,7 @@ class RecordController extends Controller
 
     public function actionView($id)
     {
-        $model = $this->recordRepository->get($id);
+        $model = $this->recordRepository->getById($id);
 
         return $this->render('view', [
             'model' => $model,
@@ -86,10 +85,10 @@ class RecordController extends Controller
 
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        $model = $this->recordRepository->getById($id);
 
-        if ($model->load(Yii::$app->request->post()) && $this->recordRepository->save($model)) {
-
+        if ($model->load(Yii::$app->request->post())) {
+            $this->recordRepository->save($model);
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -116,18 +115,10 @@ class RecordController extends Controller
 
     public function actionChange_active($id)
     {
-       $this->recordService->changeActive($id);
+        $this->recordService->changeActive($id);
 
         return $this->redirect(['view', 'id' => $id]);
     }
 
-    protected function findModel($id)
-    {
-        if ($model = $this->recordRepository->get($id) !== null) {
-            return $model;
-        }
-
-        throw new NotFoundHttpException('The requested page does not exist.');
-    }
 
 }

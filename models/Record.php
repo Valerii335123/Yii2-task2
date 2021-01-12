@@ -18,6 +18,9 @@ use Yii;
  */
 class Record extends \yii\db\ActiveRecord
 {
+    const RECORD_ACTIVE = 1;
+    const RECORD_INACTIVE = 0;
+
     public static function tableName()
     {
         return '{{%record}}';
@@ -42,15 +45,13 @@ class Record extends \yii\db\ActiveRecord
         return $this->hasMany(Comment::class, ['record_id' => 'id']);
     }
 
-
     public function getUser()
     {
         return $this->hasOne(User::class, ['id' => 'user_id']);
     }
 
-
     public function isAcive()
     {
-        return $this->active ? 1 : 0;
+        return (bool)$this->active;
     }
 }

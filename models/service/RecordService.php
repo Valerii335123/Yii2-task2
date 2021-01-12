@@ -24,13 +24,13 @@ class RecordService
 
     public function delete($id)
     {
-        $model = $this->recordRepository->get($id);
+        $model = $this->recordRepository->getById($id);
         $this->recordRepository->remove($model);
     }
 
     public function getShared($id)
     {
-        $model = $this->recordRepository->get($id);
+        $model = $this->recordRepository->getById($id);
 
         if (!$model->isAcive()) {
             \Yii::$app->response->redirect('index');
@@ -42,8 +42,8 @@ class RecordService
 
     public function changeActive($id)
     {
-        $model = $this->recordRepository->get($id);
-        $model->active = $model->isAcive() ? 0 : 1;
+        $model = $this->recordRepository->getById($id);
+        $model->active = $model->isAcive() ? Record::RECORD_INACTIVE : Record::RECORD_ACTIVE;
         $this->recordRepository->save($model);
 
     }

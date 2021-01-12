@@ -22,6 +22,12 @@ use yii\web\IdentityInterface;
  */
 class User extends ActiveRecordAlias implements IdentityInterface
 {
+    const ROLE_ADMIN = 1;
+    const ROLE_USER = 0;
+
+    const USER_ACTIVE = 1;
+    const USER_INACTIVE = 0;
+
     public static function tableName()
     {
         return '{{%user}}';

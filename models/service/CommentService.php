@@ -5,7 +5,6 @@ namespace app\models\service;
 use app\models\Comment;
 use app\models\repository\CommentRepository;
 
-
 class CommentService
 {
     private $commentRepository;
@@ -15,10 +14,10 @@ class CommentService
         $this->commentRepository = $commentRepository;
     }
 
-    public function create($commentForm, $id)
+    public function create($text, $id)
     {
         $comment = new Comment();
-        $comment->create($commentForm, $id);
+        $comment->create($text, $id);
         $this->commentRepository->save($comment);
     }
 

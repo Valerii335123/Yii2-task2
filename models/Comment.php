@@ -2,7 +2,6 @@
 
 namespace app\models;
 
-use app\models\forms\CommentForm;
 use Yii;
 
 /**
@@ -43,9 +42,9 @@ class Comment extends \yii\db\ActiveRecord
         return $this->hasOne(User::class, ['id' => 'user_id']);
     }
 
-    public function create(CommentForm $form, $id)
+    public function create($text, $id)
     {
-        $this->comment = $form->comment;
+        $this->comment = $text;
         $this->user_id = Yii::$app->user->id;
         $this->record_id = $id;
     }
