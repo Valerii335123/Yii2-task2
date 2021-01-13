@@ -18,12 +18,12 @@ use yii\grid\GridView;
 
         ['class' => 'yii\grid\ActionColumn',
             'header' => '',
-            'template' => '{change_active} {change_role}',
+            'template' => '{change-active} {change-role}',
             'buttons' => [
-                'change_active' => function ($url) {
+                'change-active' => function ($url) {
                     return Html::a('Change Active', $url, ['class' => 'btn btn-success']);
                 },
-                'change_role' => function ($url) {
+                'change-role' => function ($url) {
                     return Html::a('Change role', $url, ['class' => 'btn btn-success']);
                 },
 

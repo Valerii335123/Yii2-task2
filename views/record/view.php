@@ -20,14 +20,14 @@ use yii\widgets\DetailView;
 
         <?= html::a($model->active ?
             'Desactive' : 'Active', [
-            'change_active', 'id' => $model->id,
+            'change-active', 'id' => $model->id,
 
         ],
             ['class' => $model->active ?
                 'btn btn-danger' :
                 'btn btn-primary',
                 'data' => [
-                    'confirm' => 'Are you sure you want to change active this item?',
+                    'confirm' => 'Are you sure you want to change active this ?',
                     'method' => 'post',
                 ],
             ],

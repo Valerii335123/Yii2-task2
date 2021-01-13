@@ -28,14 +28,14 @@ class DefaultController extends Controller
         ]);
     }
 
-    public function actionChange_role($id)
+    public function actionChangeRole($id)
     {
         $this->userService->changeRole($id);
 
         return $this->redirect('index');
     }
 
-    public function actionChange_active($id)
+    public function actionChangeActive($id)
     {
         $this->userService->changeActive($id);
 

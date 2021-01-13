@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\forms\RecordForm;
 use app\models\repository\RecordRepository;
 use app\models\service\RecordService;
 use Yii;
@@ -69,11 +70,11 @@ class RecordController extends Controller
 
     public function actionCreate()
     {
-        $model = new Record();
-        $model->active = 1;
+        $model = new RecordForm();
+        $model->active = Record::RECORD_ACTIVE;
 
         if ($model->load(Yii::$app->request->post())) {
-            $this->recordService->create($model);
+            $model = $this->recordService->create($model);
 
             return $this->redirect(['view', 'id' => $model->id]);
         }
@@ -86,14 +87,15 @@ class RecordController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->recordRepository->getById($id);
+        $form = new RecordForm($model);
 
-        if ($model->load(Yii::$app->request->post())) {
-            $this->recordRepository->save($model);
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($form->load(Yii::$app->request->post()) && $form->validate()) {
+            $this->recordService->update($id, $form);
+            return $this->redirect(['view', 'id' => $id]);
         }
 
         return $this->render('update', [
-            'model' => $model,
+            'model' => $form,
         ]);
     }
 
@@ -113,12 +115,11 @@ class RecordController extends Controller
         ]);
     }
 
-    public function actionChange_active($id)
+    public function actionChangeActive($id)
     {
         $this->recordService->changeActive($id);
 
         return $this->redirect(['view', 'id' => $id]);
     }
-
 
 }

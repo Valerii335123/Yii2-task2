@@ -54,4 +54,11 @@ class Record extends \yii\db\ActiveRecord
     {
         return (bool)$this->active;
     }
+
+    public function edit($title, $text, $active)
+    {
+        $this->title = $title;
+        $this->text = $text;
+        $this->active = $active;
+    }
 }

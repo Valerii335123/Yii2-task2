@@ -11,7 +11,7 @@ class CommentRepository
     public function save(Comment $comment)
     {
         if (!$comment->save()) {
-            throw new NotFoundHttpException("");
+            throw new NotFoundHttpException("error save comment");
         }
     }
 
