@@ -2,6 +2,7 @@
 
 namespace app\models\service;
 
+use app\controllers\SiteController;
 use app\models\Comment;
 use app\models\repository\CommentRepository;
 
